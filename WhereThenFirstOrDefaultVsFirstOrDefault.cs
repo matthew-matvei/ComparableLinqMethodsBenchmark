@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ComparableLinqMethodsBenchmark
 {
-    public class SelectContainsVsAnyBenchmark
+    public class WhereThenFirstOrDefaultVsFirstOrDefault
     {
         private Guid _id;
         private SomeModel[] _source;
@@ -22,11 +22,11 @@ namespace ComparableLinqMethodsBenchmark
         }
 
         [Benchmark]
-        public bool BenchmarkSelectContains() =>
-            _source.Select(m => m.Id).Contains(_id);
+        public SomeModel BenchmarkWhereThenFirstOrDefault() =>
+            _source.Where(m => m.Id == _id).FirstOrDefault();
 
         [Benchmark]
-        public bool BenchmarkAny() =>
-            _source.Any(m => m.Id == _id);
+        public SomeModel BenchmarkFirstOrDefault() =>
+            _source.FirstOrDefault(m => m.Id == _id);
     }
 }

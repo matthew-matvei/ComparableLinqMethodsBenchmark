@@ -7,6 +7,7 @@ namespace ComparableLinqMethodsBenchmark
         public static void Main()
         {
             BenchmarkRunner.Run<SelectContainsVsAnyBenchmark>();
+            BenchmarkRunner.Run<WhereThenFirstOrDefaultVsFirstOrDefault>();
         }
     }
 }
