@@ -13,12 +13,7 @@ namespace ComparableLinqMethodsBenchmark
         public void Setup()
         {
             _id = Guid.NewGuid();
-            _source = new[]
-            {
-                new SomeModel { Id = Guid.NewGuid() },
-                new SomeModel { Id = _id },
-                new SomeModel { Id = Guid.NewGuid() }
-            };
+            _source = SomeModel.Generate(20).ToArray();
         }
 
         [Benchmark]
