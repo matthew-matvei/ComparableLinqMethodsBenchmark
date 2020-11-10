@@ -8,21 +8,22 @@ namespace ComparableLinqMethodsBenchmark
     public class WhereThenFirstOrDefaultVsFirstOrDefault
     {
         private Guid _id;
-        private IEnumerable<SomeModel> _source;
 
         [GlobalSetup]
         public void Setup()
         {
             _id = Guid.NewGuid();
-            _source = SomeModel.Generate(20);
         }
 
         [Benchmark]
         public SomeModel BenchmarkWhereThenFirstOrDefault() =>
-            _source.Where(m => m.Id == _id).FirstOrDefault();
+            SomeModel.Generate(20, id: _id)
+                .Where(m => m.Id == _id)
+                .FirstOrDefault();
 
         [Benchmark]
         public SomeModel BenchmarkFirstOrDefault() =>
-            _source.FirstOrDefault(m => m.Id == _id);
+            SomeModel.Generate(20, id: _id)
+                .FirstOrDefault(m => m.Id == _id);
     }
 }
