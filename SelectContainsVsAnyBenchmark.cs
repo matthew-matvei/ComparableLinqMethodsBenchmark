@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ComparableLinqMethodsBenchmark
@@ -7,13 +8,13 @@ namespace ComparableLinqMethodsBenchmark
     public class SelectContainsVsAnyBenchmark
     {
         private Guid _id;
-        private SomeModel[] _source;
+        private IEnumerable<SomeModel> _source;
 
         [GlobalSetup]
         public void Setup()
         {
             _id = Guid.NewGuid();
-            _source = SomeModel.Generate(20).ToArray();
+            _source = SomeModel.Generate(20);
         }
 
         [Benchmark]
