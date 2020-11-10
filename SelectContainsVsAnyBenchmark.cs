@@ -16,13 +16,13 @@ namespace ComparableLinqMethodsBenchmark
         }
 
         [Benchmark]
-        public bool BenchmarkSelectContains() =>
+        public bool SelectContains() =>
             SomeModel.Generate(20, id: _id)
                 .Select(m => m.Id)
                 .Contains(_id);
 
         [Benchmark]
-        public bool BenchmarkAny() =>
+        public bool Any() =>
             SomeModel.Generate(20, id: _id)
                 .Any(m => m.Id == _id);
     }

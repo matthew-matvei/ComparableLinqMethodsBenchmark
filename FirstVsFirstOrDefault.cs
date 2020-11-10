@@ -16,12 +16,12 @@ namespace ComparableLinqMethodsBenchmark
         }
 
         [Benchmark]
-        public SomeModel BenchmarkFirst() =>
+        public SomeModel First() =>
             SomeModel.Generate(20, id: _id)
                 .First(m => m.Id == _id);
 
         [Benchmark]
-        public SomeModel BenchmarkFirstOrDefault() =>
+        public SomeModel FirstOrDefault() =>
             SomeModel.Generate(20, id: _id)
                 .FirstOrDefault(m => m.Id == _id);
     }

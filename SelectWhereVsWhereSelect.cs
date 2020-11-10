@@ -7,13 +7,13 @@ namespace ComparableLinqMethodsBenchmark
     public class SelectWhereVsWhereSelect
     {
         [Benchmark]
-        public IEnumerable<SomeModel> BenchmarkSelectWhere() =>
+        public IEnumerable<SomeModel> SelectWhere() =>
             SomeModel.Generate(20)
                 .Select(ModifyImmutably)
                 .Where(ValueHalfFull);
 
         [Benchmark]
-        public IEnumerable<SomeModel> BenchmarkWhereSelect() =>
+        public IEnumerable<SomeModel> WhereSelect() =>
             SomeModel.Generate(20)
                 .Where(ValueHalfFull)
                 .Select(ModifyImmutably);
