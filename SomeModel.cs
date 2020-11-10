@@ -8,7 +8,7 @@ namespace ComparableLinqMethodsBenchmark
 {
     public class SomeModel
     {
-        private static Random _random = new Random();
+        private static readonly int _seed = 1230974230;
 
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -19,9 +19,10 @@ namespace ComparableLinqMethodsBenchmark
             uint count,
             Guid? id = null)
         {
-            var targetElementIndex = _random.Next((int)count);
+            var targetElementIndex = new Random().Next((int)count);
 
             return new Faker<SomeModel>()
+                .UseSeed(new Random(_seed).Next(int.MaxValue))
                 .StrictMode(true)
                 .RuleFor(
                     m => m.Id,
