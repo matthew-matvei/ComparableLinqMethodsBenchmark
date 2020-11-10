@@ -31,7 +31,7 @@ namespace ComparableLinqMethodsBenchmark
                         : Guid.NewGuid())
                 .RuleFor(m => m.Name, f => f.Name.FirstName())
                 .RuleFor(m => m.Value, f => f.Random.Int(0, 100))
-                .RuleFor(m => m.When, f => f.Date.SoonOffset())
+                .RuleFor(m => m.When, f => f.Date.SoonOffset(days: 3))
                 .GenerateLazy((int)count);
         }
 
@@ -42,6 +42,15 @@ namespace ComparableLinqMethodsBenchmark
 
             public int GetHashCode([DisallowNull] SomeModel obj) =>
                 HashCode.Combine(obj.Id);
+        }
+
+        public class WhenDateEqualityComparer : IEqualityComparer<SomeModel>
+        {
+            public bool Equals([AllowNull] SomeModel x, [AllowNull] SomeModel y) =>
+                x.When.Date == y.When.Date;
+
+            public int GetHashCode([DisallowNull] SomeModel obj) =>
+                HashCode.Combine(obj.When.Date);
         }
     }
 }
