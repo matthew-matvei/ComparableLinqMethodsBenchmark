@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 
 namespace ComparableLinqMethodsBenchmark
 {
@@ -14,6 +15,7 @@ namespace ComparableLinqMethodsBenchmark
         private Collection<SomeModel> _collectionSource;
         private HashSet<SomeModel> _hashSetSource;
         private Dictionary<Guid, SomeModel> _dictionarySource;
+        private readonly Consumer _consumer = new Consumer();
 
         [GlobalSetup]
         public void Setup()
@@ -33,78 +35,90 @@ namespace ComparableLinqMethodsBenchmark
         }
 
         [Benchmark]
-        public IEnumerable<SomeModel> WhereDistinct() =>
+        public void WhereDistinct() =>
             _enumerableSource
                 .Where(ValueHalfFull)
-                .Distinct(new SomeModel.WhenDateEqualityComparer());
+                .Distinct(new SomeModel.WhenDateEqualityComparer())
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> DistinctWhere() =>
+        public void DistinctWhere() =>
             _enumerableSource
                 .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Where(ValueHalfFull);
+                .Where(ValueHalfFull)
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> Array_WhereDistinct() =>
+        public void Array_WhereDistinct() =>
             _arraySource
                 .Where(ValueHalfFull)
-                .Distinct(new SomeModel.WhenDateEqualityComparer());
+                .Distinct(new SomeModel.WhenDateEqualityComparer())
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> Array_DistinctWhere() =>
+        public void Array_DistinctWhere() =>
             _arraySource
                 .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Where(ValueHalfFull);
+                .Where(ValueHalfFull)
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> List_WhereDistinct() =>
+        public void List_WhereDistinct() =>
             _listSource
                 .Where(ValueHalfFull)
-                .Distinct(new SomeModel.WhenDateEqualityComparer());
+                .Distinct(new SomeModel.WhenDateEqualityComparer())
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> List_DistinctWhere() =>
+        public void List_DistinctWhere() =>
             _listSource
                 .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Where(ValueHalfFull);
+                .Where(ValueHalfFull)
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> Collection_WhereDistinct() =>
+        public void Collection_WhereDistinct() =>
             _collectionSource
                 .Where(ValueHalfFull)
-                .Distinct(new SomeModel.WhenDateEqualityComparer());
+                .Distinct(new SomeModel.WhenDateEqualityComparer())
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> Collection_DistinctWhere() =>
+        public void Collection_DistinctWhere() =>
             _collectionSource
                 .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Where(ValueHalfFull);
+                .Where(ValueHalfFull)
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> HashSet_WhereDistinct() =>
+        public void HashSet_WhereDistinct() =>
             _hashSetSource
                 .Where(ValueHalfFull)
-                .Distinct(new SomeModel.WhenDateEqualityComparer());
+                .Distinct(new SomeModel.WhenDateEqualityComparer())
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> HashSet_DistinctWhere() =>
+        public void HashSet_DistinctWhere() =>
             _hashSetSource
                 .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Where(ValueHalfFull);
+                .Where(ValueHalfFull)
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> Dictionary_WhereDistinct() =>
+        public void Dictionary_WhereDistinct() =>
             _dictionarySource
                 .Select(kv => kv.Value)
                 .Where(ValueHalfFull)
-                .Distinct(new SomeModel.WhenDateEqualityComparer());
+                .Distinct(new SomeModel.WhenDateEqualityComparer())
+                .Consume(_consumer);
 
         [Benchmark]
-        public IEnumerable<SomeModel> Dictionary_DistinctWhere() =>
+        public void Dictionary_DistinctWhere() =>
             _dictionarySource
                 .Select(kv => kv.Value)
                 .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Where(ValueHalfFull);
+                .Where(ValueHalfFull)
+                .Consume(_consumer);
 
         private static bool ValueHalfFull(SomeModel arg) =>
             arg.Value <= 50;
