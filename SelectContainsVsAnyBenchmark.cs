@@ -20,17 +20,30 @@ namespace ComparableLinqMethodsBenchmark
         public void Setup()
         {
             _id = Guid.NewGuid();
-            _enumerableSource = SomeModel.Generate(20, id: _id)
+            _enumerableSource = SomeModel
+                .Generate(200)
+                .Append(SomeModel.FromId(_id))
                 .ToArray() as IEnumerable<SomeModel>;
-            _arraySource = SomeModel.Generate(20, id: _id)
+            _arraySource = SomeModel
+                .Generate(200)
+                .Append(SomeModel.FromId(_id))
                 .ToArray();
-            _listSource = SomeModel.Generate(20, id: _id)
+            _listSource = SomeModel
+                .Generate(200)
+                .Append(SomeModel.FromId(_id))
                 .ToList();
             _collectionSource = new Collection<SomeModel>(
-                SomeModel.Generate(20, id: _id).ToArray());
-            _hashSetSource = SomeModel.Generate(20, id: _id)
+                SomeModel
+                    .Generate(200)
+                    .Append(SomeModel.FromId(_id))
+                    .ToArray());
+            _hashSetSource = SomeModel
+                .Generate(200)
+                .Append(SomeModel.FromId(_id))
                 .ToHashSet(new SomeModel.IdEqualityComparer());
-            _dictionarySource = SomeModel.Generate(20, id: _id)
+            _dictionarySource = SomeModel
+                .Generate(200)
+                .Append(SomeModel.FromId(_id))
                 .ToDictionary(m => m.Id);
         }
 
