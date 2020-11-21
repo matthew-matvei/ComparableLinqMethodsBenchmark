@@ -6,10 +6,12 @@ namespace ComparableLinqMethodsBenchmark
     {
         public static void Main()
         {
-            /*BenchmarkRunner.Run<SelectContainsVsAnyBenchmark>();
-            BenchmarkRunner.Run<WhereThenFirstOrDefaultVsFirstOrDefault>();
-            BenchmarkRunner.Run<SelectWhereVsWhereSelect>();*/
             BenchmarkRunner.Run<FirstVsFirstOrDefault>();
+            BenchmarkRunner.Run<SelectContainsVsAnyBenchmark>();
+            BenchmarkRunner.Run<SelectWhereVsWhereSelect>();
+            BenchmarkRunner.Run<WhereDistinctVsDistinctWhere>();
+            BenchmarkRunner.Run<WhereThenFirstOrDefaultVsFirstOrDefault>();
+            BenchmarkRunner.Run<WhereWhereVsWhere>();
         }
     }
 }
