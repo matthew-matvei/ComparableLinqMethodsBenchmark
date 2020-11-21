@@ -20,17 +20,17 @@ namespace ComparableLinqMethodsBenchmark
         [GlobalSetup]
         public void Setup()
         {
-            _enumerableSource = SomeModel.Generate(20)
+            _enumerableSource = SomeModel.Generate(200)
                 as IEnumerable<SomeModel>;
-            _arraySource = SomeModel.Generate(20)
+            _arraySource = SomeModel.Generate(200)
                 .ToArray();
-            _listSource = SomeModel.Generate(20)
+            _listSource = SomeModel.Generate(200)
                 .ToList();
             _collectionSource = new Collection<SomeModel>(
-                SomeModel.Generate(20).ToList());
-            _hashSetSource = SomeModel.Generate(20)
+                SomeModel.Generate(200).ToList());
+            _hashSetSource = SomeModel.Generate(200)
                 .ToHashSet(new SomeModel.IdEqualityComparer());
-            _dictionarySource = SomeModel.Generate(20)
+            _dictionarySource = SomeModel.Generate(200)
                 .ToDictionary(m => m.Id);
         }
 
