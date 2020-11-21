@@ -9,7 +9,6 @@ namespace ComparableLinqMethodsBenchmark
 {
     public class WhereDistinctVsDistinctWhere
     {
-        private IEnumerable<SomeModel> _enumerableSource;
         private SomeModel[] _arraySource;
         private List<SomeModel> _listSource;
         private Collection<SomeModel> _collectionSource;
@@ -20,8 +19,6 @@ namespace ComparableLinqMethodsBenchmark
         [GlobalSetup]
         public void Setup()
         {
-            _enumerableSource = SomeModel.Generate(200)
-                as IEnumerable<SomeModel>;
             _arraySource = SomeModel.Generate(200)
                 .ToArray();
             _listSource = SomeModel.Generate(200)
@@ -33,20 +30,6 @@ namespace ComparableLinqMethodsBenchmark
             _dictionarySource = SomeModel.Generate(200)
                 .ToDictionary(m => m.Id);
         }
-
-        [Benchmark]
-        public void WhereDistinct() =>
-            _enumerableSource
-                .Where(ValueHalfFull)
-                .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Consume(_consumer);
-
-        [Benchmark]
-        public void DistinctWhere() =>
-            _enumerableSource
-                .Distinct(new SomeModel.WhenDateEqualityComparer())
-                .Where(ValueHalfFull)
-                .Consume(_consumer);
 
         [Benchmark]
         public void Array_WhereDistinct() =>

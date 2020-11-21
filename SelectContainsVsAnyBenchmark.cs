@@ -9,7 +9,6 @@ namespace ComparableLinqMethodsBenchmark
     public class SelectContainsVsAnyBenchmark
     {
         private Guid _id;
-        private IEnumerable<SomeModel> _enumerableSource;
         private SomeModel[] _arraySource;
         private List<SomeModel> _listSource;
         private Collection<SomeModel> _collectionSource;
@@ -20,10 +19,6 @@ namespace ComparableLinqMethodsBenchmark
         public void Setup()
         {
             _id = Guid.NewGuid();
-            _enumerableSource = SomeModel
-                .Generate(200)
-                .Append(SomeModel.FromId(_id))
-                .ToArray() as IEnumerable<SomeModel>;
             _arraySource = SomeModel
                 .Generate(200)
                 .Append(SomeModel.FromId(_id))
@@ -46,16 +41,6 @@ namespace ComparableLinqMethodsBenchmark
                 .Append(SomeModel.FromId(_id))
                 .ToDictionary(m => m.Id);
         }
-
-        [Benchmark]
-        public bool SelectContains() =>
-            _enumerableSource
-                .Select(m => m.Id)
-                .Contains(_id);
-
-        [Benchmark]
-        public bool Any() =>
-            _enumerableSource.Any(m => m.Id == _id);
 
         [Benchmark]
         public bool Array_SelectContains() =>
