@@ -1,8 +1,7 @@
-﻿using BenchmarkDotNet.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Bogus;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace ComparableLinqMethodsBenchmark
 {
@@ -14,13 +13,14 @@ namespace ComparableLinqMethodsBenchmark
         public DateTimeOffset When { get; set; }
 
         public static IEnumerable<SomeModel> Generate(uint count) =>
-            new Faker<SomeModel>()
-                .StrictMode(true)
-                .RuleFor(m => m.Id, _ => Guid.NewGuid())
-                .RuleFor(m => m.Name, f => f.Name.FirstName())
-                .RuleFor(m => m.Value, f => f.Random.Int(0, 100))
-                .RuleFor(m => m.When, f => f.Date.SoonOffset(days: 3))
-                .GenerateLazy((int)count);
+            Enumerable.Range(1, (int)count)
+                .Select(i => new SomeModel
+                {
+                    Id = Guid.NewGuid(),
+                    Name = $"Model {i}",
+                    Value = i,
+                    When = DateTimeOffset.UtcNow.AddHours(i)
+                });
 
         public static SomeModel FromId(Guid id) => new SomeModel
         {
